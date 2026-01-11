@@ -83,23 +83,23 @@ class CustomNavbar extends StatelessWidget {
             ),
           ),
           // Actions
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: const Text('DEPLOY'),
-          ),
-          const SizedBox(width: 16),
-          const CircleAvatar(
-            backgroundColor: AppColors.cardBg,
-            child: Icon(Icons.person, color: AppColors.textSecondary),
-          ),
-          const SizedBox(width: 16),
+          // ElevatedButton(
+          //   onPressed: () {},
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: AppColors.primary,
+          //     foregroundColor: Colors.white,
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(8),
+          //     ),
+          //   ),
+          //   child: const Text('DEPLOY'),
+          // ),
+          // const SizedBox(width: 16),
+          // const CircleAvatar(
+          //   backgroundColor: AppColors.cardBg,
+          //   child: Icon(Icons.person, color: AppColors.textSecondary),
+          // ),
+          // const SizedBox(width: 16),
         ],
       ),
     );

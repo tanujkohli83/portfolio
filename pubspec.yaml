@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^2.2.3
   animate_do: ^4.2.0
   google_nav_bar: ^5.0.7
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:

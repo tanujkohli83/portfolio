@@ -1,9 +1,67 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../services/contact_service.dart';
 
-class TerminalContactForm extends StatelessWidget {
+class TerminalContactForm extends StatefulWidget {
   const TerminalContactForm({super.key});
+
+  @override
+  State<TerminalContactForm> createState() => _TerminalContactFormState();
+}
+
+class _TerminalContactFormState extends State<TerminalContactForm> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  bool _isSending = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSend() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final message = _messageController.text.trim();
+
+    if (name.isEmpty || email.isEmpty || message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields.')),
+      );
+      return;
+    }
+
+    setState(() => _isSending = true);
+
+    final success = await ContactService.submitContactForm(
+      name: name,
+      email: email,
+      message: message,
+    );
+
+    if (mounted) {
+      setState(() => _isSending = false);
+      if (success) {
+        _nameController.clear();
+        _emailController.clear();
+        _messageController.clear();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Message sent successfully!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to send message. Please try again later.'),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +89,9 @@ class TerminalContactForm extends StatelessWidget {
           const SizedBox(height: 32),
 
           // JSON Structure
-          _jsonLine('"name"', 'Enter your name'),
+          _jsonLine('"name"', 'Enter your name', _nameController),
           const SizedBox(height: 16),
-          _jsonLine('"email"', 'your@email.com'),
+          _jsonLine('"email"', 'your@email.com', _emailController),
           const SizedBox(height: 16),
 
           Row(
@@ -49,6 +107,7 @@ class TerminalContactForm extends StatelessWidget {
 
           // Large Message Field
           TextField(
+            controller: _messageController,
             maxLines: 6,
             style: AppTheme.monoStyle.copyWith(color: AppColors.textSecondary),
             decoration: InputDecoration(
@@ -88,9 +147,18 @@ class TerminalContactForm extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.send, size: 18),
-              label: const Text('Execute Send'),
+              onPressed: _isSending ? null : _handleSend,
+              icon: _isSending
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Icon(Icons.send, size: 18),
+              label: Text(_isSending ? 'Sending...' : 'Execute Send'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -112,7 +180,7 @@ class TerminalContactForm extends StatelessWidget {
     );
   }
 
-  Widget _jsonLine(String key, String hint) {
+  Widget _jsonLine(String key, String hint, TextEditingController controller) {
     return Row(
       children: [
         Text(
@@ -121,6 +189,7 @@ class TerminalContactForm extends StatelessWidget {
         ),
         Expanded(
           child: TextField(
+            controller: controller,
             style: AppTheme.monoStyle.copyWith(color: AppColors.textSecondary),
             decoration: InputDecoration(
               hintText: "'$hint'",
