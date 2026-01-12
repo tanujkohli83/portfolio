@@ -46,19 +46,21 @@ class ContactSection extends StatelessWidget {
 
   Widget _buildSocialRow(BuildContext context) {
     final socials = [
-      {'title': 'GITHUB', 'handle': '@johndoe_dev'},
-      {'title': 'LINKEDIN', 'handle': '/in/johndoe'},
-      {'title': 'TWITTER', 'handle': '@jdoe_apps'},
-      {'title': 'EMAIL', 'handle': 'hello@jdoe.dev'},
+      {'title': 'GITHUB', 'handle': '@tanujkohli83'},
+      {'title': 'LINKEDIN', 'handle': '/in/tanujkohli83'},
+      {'title': 'TWITTER', 'handle': '@tanujkohli83'},
+      {'title': 'EMAIL', 'handle': 'tanujkohli83@gmail.com'},
     ];
 
-    return Wrap(
-      spacing: 20,
-      runSpacing: 20,
-      alignment: WrapAlignment.center,
-      children: socials
-          .map((s) => _socialCard(s['title']!, s['handle']!, context))
-          .toList(),
+    return Center(
+      child: Wrap(
+        spacing: 20,
+        runSpacing: 20,
+        alignment: WrapAlignment.center,
+        children: socials
+            .map((s) => _socialCard(s['title']!, s['handle']!, context))
+            .toList(),
+      ),
     );
   }
 
