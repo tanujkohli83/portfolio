@@ -81,7 +81,7 @@ class CodeEditorCard extends StatelessWidget {
                         _span('roles = ', AppColors.textPrimary),
                         _span('listOf', AppColors.accent),
                         _span('(', AppColors.textPrimary),
-                        _span('"Flutter Expert"', AppColors.codeString),
+                        _span('"Flutter Dev"', AppColors.codeString),
                         _span(', ', AppColors.textPrimary),
                         _span('"Android Dev"', AppColors.codeString),
                         _span(')', AppColors.textPrimary),
