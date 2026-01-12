@@ -3,6 +3,8 @@ import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../services/contact_service.dart';
 
+import '../../core/utils/responsive.dart';
+
 class TerminalContactForm extends StatefulWidget {
   const TerminalContactForm({super.key});
 
@@ -66,7 +68,7 @@ class _TerminalContactFormState extends State<TerminalContactForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(40),
+      padding: EdgeInsets.all(Responsive.isMobile(context) ? 24 : 40),
       decoration: BoxDecoration(
         color: AppColors.cardBg,
         borderRadius: BorderRadius.circular(16),

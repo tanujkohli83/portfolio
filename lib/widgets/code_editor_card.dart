@@ -11,7 +11,8 @@ class CodeEditorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return FadeInUp(
       child: Container(
-        width: 800,
+        constraints: const BoxConstraints(maxWidth: 800),
+        width: double.infinity,
         decoration: BoxDecoration(
           color: AppColors.cardBg,
           borderRadius: BorderRadius.circular(12),
@@ -53,53 +54,58 @@ class CodeEditorCard extends StatelessWidget {
               ),
             ),
             // Code Block
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: SelectableText.rich(
-                TextSpan(
-                  children: [
-                    _codeLine('1', [
-                      _span('import ', AppColors.codeKeyword),
-                      _span('com.portfolio.MobileDev', AppColors.textPrimary),
-                    ]),
-                    _emptyLine('2'),
-                    _codeLine('3', [
-                      _span('class ', AppColors.codeKeyword),
-                      _span('Developer ', AppColors.primary),
-                      _span('{', AppColors.textPrimary),
-                    ]),
-                    _codeLine('4', [
-                      _span('  val ', AppColors.codeKeyword),
-                      _span('name = ', AppColors.textPrimary),
-                      _span('"Tanuj Kohli"', AppColors.codeString),
-                    ]),
-                    _codeLine('5', [
-                      _span('  val ', AppColors.codeKeyword),
-                      _span('roles = ', AppColors.textPrimary),
-                      _span('listOf', AppColors.accent),
-                      _span('(', AppColors.textPrimary),
-                      _span('"Flutter Expert"', AppColors.codeString),
-                      _span(', ', AppColors.textPrimary),
-                      _span('"Android Dev"', AppColors.codeString),
-                      _span(')', AppColors.textPrimary),
-                    ]),
-                    _codeLine('6', [
-                      _span('  val ', AppColors.codeKeyword),
-                      _span('mission = ', AppColors.textPrimary),
-                      _span(
-                        '"Building seamless mobile experiences with clean code."',
-                        AppColors.codeString,
-                      ),
-                    ]),
-                    _codeLine('7', [_span('}', AppColors.textPrimary)]),
-                  ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: SelectableText.rich(
+                  TextSpan(
+                    children: [
+                      _codeLine('1', [
+                        _span('import ', AppColors.codeKeyword),
+                        _span('com.portfolio.MobileDev', AppColors.textPrimary),
+                      ]),
+                      _emptyLine('2'),
+                      _codeLine('3', [
+                        _span('class ', AppColors.codeKeyword),
+                        _span('Developer ', AppColors.primary),
+                        _span('{', AppColors.textPrimary),
+                      ]),
+                      _codeLine('4', [
+                        _span('  val ', AppColors.codeKeyword),
+                        _span('name = ', AppColors.textPrimary),
+                        _span('"Tanuj Kohli"', AppColors.codeString),
+                      ]),
+                      _codeLine('5', [
+                        _span('  val ', AppColors.codeKeyword),
+                        _span('roles = ', AppColors.textPrimary),
+                        _span('listOf', AppColors.accent),
+                        _span('(', AppColors.textPrimary),
+                        _span('"Flutter Expert"', AppColors.codeString),
+                        _span(', ', AppColors.textPrimary),
+                        _span('"Android Dev"', AppColors.codeString),
+                        _span(')', AppColors.textPrimary),
+                      ]),
+                      _codeLine('6', [
+                        _span('  val ', AppColors.codeKeyword),
+                        _span('mission = ', AppColors.textPrimary),
+                        _span(
+                          '"Building seamless mobile experiences with clean code."',
+                          AppColors.codeString,
+                        ),
+                      ]),
+                      _codeLine('7', [_span('}', AppColors.textPrimary)]),
+                    ],
+                  ),
                 ),
               ),
             ),
             // Footer Buttons
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Row(
+              child: Wrap(
+                spacing: 16,
+                runSpacing: 16,
                 children: [
                   _btn(
                     'Execute_Build.sh',
@@ -109,7 +115,6 @@ class CodeEditorCard extends StatelessWidget {
                       // Action for build button
                     },
                   ),
-                  const SizedBox(width: 16),
                   _btn(
                     'Resume.pdf',
                     AppColors.editorBg,

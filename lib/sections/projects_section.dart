@@ -58,7 +58,7 @@ class ProjectsSection extends StatelessWidget {
               crossAxisCount: Responsive.isMobile(context) ? 1 : 2,
               crossAxisSpacing: 32,
               mainAxisSpacing: 32,
-              childAspectRatio: 0.95,
+              childAspectRatio: Responsive.isMobile(context) ? 0.75 : 0.95,
             ),
             itemBuilder: (context, index) {
               final p = projects[index];
