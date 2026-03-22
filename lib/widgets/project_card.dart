@@ -5,9 +5,10 @@ import '../../core/theme/app_theme.dart';
 class ProjectCard extends StatefulWidget {
   final String title;
   final String description;
-  final String imagePath;
+  final String imagePath; // kept for API compatibility, not used for display
   final List<String> techStack;
   final IconData icon;
+  final String? accentColor;
 
   const ProjectCard({
     super.key,
@@ -16,147 +17,153 @@ class ProjectCard extends StatefulWidget {
     required this.imagePath,
     required this.techStack,
     required this.icon,
+    this.accentColor,
   });
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
 }
 
-class _ProjectCardState extends State<ProjectCard> {
-  bool isHovered = false;
+class _ProjectCardState extends State<ProjectCard>
+    with SingleTickerProviderStateMixin {
+  bool _hovered = false;
+  late AnimationController _scaleController;
+  late Animation<double> _scaleAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _scaleAnim = Tween<double>(begin: 1.0, end: 1.025).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) => setState(() => isHovered = true),
-      onExit: (_) => setState(() => isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        decoration: BoxDecoration(
-          color: AppColors.cardBg,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isHovered ? AppColors.primary : AppColors.border,
-            width: 1,
-          ),
-          boxShadow: isHovered
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ]
-              : [],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image Placeholder/Preview
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
-              child: Container(
-                height: 350,
-                width: double.infinity,
-                color: AppColors.editorBg,
-                child: widget.imagePath.isNotEmpty
-                    ? (widget.imagePath.startsWith('http')
-                          ? Image.network(
-                              widget.imagePath,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Center(
-                                    child: Icon(
-                                      widget.icon,
-                                      size: 48,
-                                      color: AppColors.textDim,
-                                    ),
-                                  ),
-                            )
-                          : Image.asset(
-                              widget.imagePath,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Center(
-                                    child: Icon(
-                                      widget.icon,
-                                      size: 48,
-                                      color: AppColors.textDim,
-                                    ),
-                                  ),
-                            ))
-                    : Center(
-                        child: Icon(
-                          widget.icon,
-                          size: 48,
-                          color: AppColors.textDim,
-                        ),
-                      ),
-              ),
+      onEnter: (_) {
+        setState(() => _hovered = true);
+        _scaleController.forward();
+      },
+      onExit: (_) {
+        setState(() => _hovered = false);
+        _scaleController.reverse();
+      },
+      child: ScaleTransition(
+        scale: _scaleAnim,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          decoration: BoxDecoration(
+            color: _hovered ? const Color(0xFF0D1526) : AppColors.cardBg,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: _hovered
+                  ? AppColors.primary.withOpacity(0.6)
+                  : AppColors.border,
+              width: 1,
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
+            boxShadow: _hovered
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withOpacity(0.18),
+                      blurRadius: 32,
+                      spreadRadius: 4,
+                      offset: const Offset(0, 8),
+                    ),
+                  ]
+                : [],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top Row: Title + Icon badges
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
                         widget.title,
                         style: AppTheme.monoStyle.copyWith(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
                         ),
                       ),
-                      Icon(widget.icon, size: 20, color: AppColors.primary),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    widget.description,
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
-                      height: 1.6,
-                      fontSize: 14,
                     ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                    const SizedBox(width: 12),
+                    _iconBadge(Icons.star_border, AppColors.codeNumber),
+                    const SizedBox(width: 8),
+                    _iconBadge(Icons.call_split, AppColors.textDim),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                // Description
+                Text(
+                  widget.description,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    height: 1.65,
+                    fontSize: 13.5,
                   ),
-                  const SizedBox(height: 16),
-                  // Tech Chips
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: widget.techStack
-                        .map((tech) => _techChip(tech))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 24),
-                  // Footer Links
-                  Row(
-                    children: [
-                      _footerLink('Preview', Icons.link),
-                      const SizedBox(width: 20),
-                      _footerLink('Source', Icons.code),
-                    ],
-                  ),
-                ],
-              ),
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 20),
+                // Tech Chips
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: widget.techStack.map((tech) => _techChip(tech)).toList(),
+                ),
+                const Spacer(),
+                const SizedBox(height: 20),
+                // Footer
+                Row(
+                  children: [
+                    _footerLink('Preview', Icons.open_in_new),
+                    const SizedBox(width: 20),
+                    _footerLink('Source', Icons.code),
+                    const Spacer(),
+                    _viewMoreButton(),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
+  Widget _iconBadge(IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: AppColors.editorBg,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Icon(icon, size: 14, color: color),
+    );
+  }
+
   Widget _techChip(String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withOpacity(0.08),
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: AppColors.primary.withOpacity(0.2)),
       ),
@@ -176,17 +183,66 @@ class _ProjectCardState extends State<ProjectCard> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.textPrimary),
+          Icon(icon, size: 14, color: AppColors.textDim),
           const SizedBox(width: 6),
           Text(
             label,
             style: AppTheme.monoStyle.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textDim,
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _viewMoreButton() {
+    return _HoverOutlineButton(label: 'AFTER HOURS');
+  }
+}
+
+class _HoverOutlineButton extends StatefulWidget {
+  final String label;
+
+  const _HoverOutlineButton({required this.label});
+
+  @override
+  State<_HoverOutlineButton> createState() => _HoverOutlineButtonState();
+}
+
+class _HoverOutlineButtonState extends State<_HoverOutlineButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: () {},
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+          decoration: BoxDecoration(
+            color: _hovered ? AppColors.primary.withOpacity(0.12) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: _hovered ? AppColors.primary : AppColors.border,
+            ),
+          ),
+          child: Text(
+            widget.label,
+            style: AppTheme.monoStyle.copyWith(
+              color: _hovered ? AppColors.primary : AppColors.textDim,
+              fontSize: 11,
+              letterSpacing: 0.8,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }

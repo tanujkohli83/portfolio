@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/terminal_form.dart';
 import '../core/constants/app_colors.dart';
 import '../core/theme/app_theme.dart';
-import '../core/utils/responsive.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -10,30 +9,54 @@ class ContactSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 24),
+      padding: const EdgeInsets.fromLTRB(28, 80, 28, 60),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          // Section Header
+          Row(
             children: [
-              Text(
-                'POST /contact',
-                style: AppTheme.monoStyle.copyWith(
-                  color: AppColors.textPrimary,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '// POST /Hire /Build /Collaborate',
+                    style: AppTheme.monoStyle.copyWith(
+                      color: AppColors.textDim,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Initialize Contact',
+                    style: AppTheme.monoStyle.copyWith(
+                      color: AppColors.textPrimary,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // Underline accent
+                  Container(
+                    width: 64,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              Container(width: 80, height: 3, color: AppColors.primary),
             ],
           ),
           const SizedBox(height: 60),
 
-          // Full-width JSON Form
-          const Center(
-            child: Constraints(maxWidth: 900, child: TerminalContactForm()),
+          // Full-width Terminal Form
+          Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 900),
+              child: const TerminalContactForm(),
+            ),
           ),
           const SizedBox(height: 60),
 
@@ -46,71 +69,131 @@ class ContactSection extends StatelessWidget {
 
   Widget _buildSocialRow(BuildContext context) {
     final socials = [
-      {'title': 'GITHUB', 'handle': '@tanujkohli83'},
-      {'title': 'LINKEDIN', 'handle': '/in/tanujkohli83'},
-      {'title': 'TWITTER', 'handle': '@tanujkohli83'},
-      {'title': 'EMAIL', 'handle': 'tanujkohli83@gmail.com'},
+      {'title': 'GITHUB', 'handle': '@tanujkohli83', 'icon': Icons.code},
+      {'title': 'LINKEDIN', 'handle': '/in/tanujkohli83', 'icon': Icons.work},
+      {
+        'title': 'TWITTER',
+        'handle': '@tanujkohli83',
+        'icon': Icons.alternate_email
+      },
+      {
+        'title': 'EMAIL',
+        'handle': 'tanujkohli83@gmail.com',
+        'icon': Icons.mail_outline
+      },
     ];
 
     return Center(
       child: Wrap(
         spacing: 20,
-        runSpacing: 20,
+        runSpacing: 16,
         alignment: WrapAlignment.center,
         children: socials
-            .map((s) => _socialCard(s['title']!, s['handle']!, context))
+            .map((s) => _SocialCard(
+                  title: s['title'] as String,
+                  handle: s['handle'] as String,
+                  icon: s['icon'] as IconData,
+                ))
             .toList(),
-      ),
-    );
-  }
-
-  Widget _socialCard(String title, String handle, BuildContext context) {
-    double cardWidth = Responsive.isMobile(context)
-        ? (MediaQuery.of(context).size.width - 68) / 2
-        : 220;
-    if (Responsive.isMobile(context) &&
-        MediaQuery.of(context).size.width < 400) {
-      cardWidth = MediaQuery.of(context).size.width - 48;
-    }
-
-    return Container(
-      width: cardWidth,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppColors.scaffoldBg,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: AppTheme.monoStyle.copyWith(
-              color: AppColors.textDim,
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            handle,
-            style: AppTheme.monoStyle.copyWith(
-              color: AppColors.textPrimary,
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }
 }
 
-class Constraints extends StatelessWidget {
+class _SocialCard extends StatefulWidget {
+  final String title;
+  final String handle;
+  final IconData icon;
+
+  const _SocialCard({
+    required this.title,
+    required this.handle,
+    required this.icon,
+  });
+
+  @override
+  State<_SocialCard> createState() => _SocialCardState();
+}
+
+class _SocialCardState extends State<_SocialCard> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    double cardWidth;
+    final w = MediaQuery.of(context).size.width;
+    if (w < 400) {
+      cardWidth = w - 56;
+    } else if (w < 768) {
+      cardWidth = (w - 68) / 2;
+    } else {
+      cardWidth = 220;
+    }
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: cardWidth,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        decoration: BoxDecoration(
+          color: _hovered ? const Color(0xFF0D1526) : AppColors.cardBg,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: _hovered ? AppColors.primary.withOpacity(0.5) : AppColors.border,
+          ),
+          boxShadow: _hovered
+              ? [
+                  BoxShadow(
+                    color: AppColors.primary.withOpacity(0.12),
+                    blurRadius: 20,
+                    spreadRadius: 2,
+                  ),
+                ]
+              : [],
+        ),
+        child: Column(
+          children: [
+            Icon(
+              widget.icon,
+              size: 20,
+              color: _hovered ? AppColors.primary : AppColors.textDim,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              widget.title,
+              style: AppTheme.monoStyle.copyWith(
+                color: AppColors.textDim,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              widget.handle,
+              style: AppTheme.monoStyle.copyWith(
+                color: _hovered ? AppColors.textPrimary : AppColors.textSecondary,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Constraints helper widget
+class ContactConstraints extends StatelessWidget {
   final double maxWidth;
   final Widget child;
-  const Constraints({super.key, required this.maxWidth, required this.child});
+  const ContactConstraints(
+      {super.key, required this.maxWidth, required this.child});
 
   @override
   Widget build(BuildContext context) {

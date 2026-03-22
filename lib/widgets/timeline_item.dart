@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
-class TimelineItem extends StatelessWidget {
+class TimelineItem extends StatefulWidget {
   final String role;
   final String company;
   final String period;
   final List<String> points;
+  final List<String> tags;
   final bool isLast;
 
   const TimelineItem({
@@ -15,8 +16,16 @@ class TimelineItem extends StatelessWidget {
     required this.company,
     required this.period,
     required this.points,
+    this.tags = const [],
     this.isLast = false,
   });
+
+  @override
+  State<TimelineItem> createState() => _TimelineItemState();
+}
+
+class _TimelineItemState extends State<TimelineItem> {
+  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,99 +36,184 @@ class TimelineItem extends StatelessWidget {
           // Timeline indicator
           Column(
             children: [
-              Container(
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
                 width: 16,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: _hovered ? AppColors.primary : AppColors.cardBg,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.scaffoldBg, width: 3),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withOpacity(0.5),
-                      blurRadius: 8,
-                    ),
-                  ],
+                  border: Border.all(
+                    color: AppColors.primary,
+                    width: _hovered ? 2 : 2.5,
+                  ),
+                  boxShadow: _hovered
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.6),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                          ),
+                        ]
+                      : [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.3),
+                            blurRadius: 6,
+                          ),
+                        ],
                 ),
               ),
-              if (!isLast)
-                Expanded(child: Container(width: 2, color: AppColors.border)),
+              if (!widget.isLast)
+                Expanded(
+                  child: Container(
+                    width: 2,
+                    color: AppColors.border,
+                  ),
+                ),
             ],
           ),
           const SizedBox(width: 24),
           // Content Card
           Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 32),
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppColors.cardBg,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            role,
-                            style: AppTheme.monoStyle.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            company,
-                            style: TextStyle(
-                              color: AppColors.codeKeyword,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        period,
-                        style: AppTheme.monoStyle.copyWith(
-                          color: AppColors.textDim,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+            child: MouseRegion(
+              onEnter: (_) => setState(() => _hovered = true),
+              onExit: (_) => setState(() => _hovered = false),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                margin: const EdgeInsets.only(bottom: 32),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: _hovered
+                      ? const Color(0xFF111827)
+                      : AppColors.cardBg,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: _hovered
+                        ? AppColors.primary.withOpacity(0.5)
+                        : AppColors.border,
+                    width: 1,
                   ),
-                  const SizedBox(height: 16),
-                  ...points.map(
-                    (p) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '• ',
-                            style: TextStyle(color: AppColors.primary),
+                  boxShadow: _hovered
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.12),
+                            blurRadius: 24,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 4),
                           ),
-                          Expanded(
-                            child: Text(
-                              p,
-                              style: TextStyle(
-                                color: AppColors.textSecondary,
-                                height: 1.5,
+                        ]
+                      : [],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.role,
+                                style: AppTheme.monoStyle.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                widget.company,
+                                style: TextStyle(
+                                  color: AppColors.codeKeyword,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              widget.period,
+                              style: AppTheme.monoStyle.copyWith(
+                                color: AppColors.textDim,
+                                fontSize: 11,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            // Tech tags
+                            if (widget.tags.isNotEmpty)
+                              Row(
+                                children: widget.tags
+                                    .map((tag) => _tag(tag))
+                                    .toList(),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    ...widget.points.map(
+                      (p) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 6),
+                              width: 5,
+                              height: 5,
+                              decoration: const BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                p,
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                  height: 1.6,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _tag(String label) {
+    return Container(
+      margin: const EdgeInsets.only(left: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: AppColors.editorBg,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Text(
+        label,
+        style: AppTheme.monoStyle.copyWith(
+          color: AppColors.textDim,
+          fontSize: 10,
+          letterSpacing: 0.8,
+        ),
       ),
     );
   }
