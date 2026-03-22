@@ -1,22 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const app = express();
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Create a transporter for sending emails
-const transporter = nodemailer.createTransport({
-  service: "gmail", // Using Gmail (easy setup)
-  auth: {
-    user: process.env.EMAIL_USER, // Your Gmail address
-    pass: process.env.EMAIL_PASSWORD, // Your Gmail app password
-  },
-});
 
 // API Route to handle contact form submission
 app.post("/api/contact", async (req, res) => {
@@ -31,10 +23,9 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    // Email options - what to send to your personal email
-    const mailOptions = {
-      from: process.env.EMAIL_USER, // Your email
-      to: process.env.RECEIVE_EMAIL, // Your personal email (where you get notifications)
+    await resend.emails.send({
+      from: "onboarding@resend.dev", // keep this until you verify a domain
+      to: process.env.RECEIVE_EMAIL,
       subject: `New Contact Form: ${name}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -43,12 +34,8 @@ app.post("/api/contact", async (req, res) => {
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, "<br>")}</p>
       `,
-    };
+    });
 
-    // Send the email
-    await transporter.sendMail(mailOptions);
-
-    // Send success response to frontend
     res.json({
       success: true,
       message: "Form submitted successfully! We will contact you soon.",
@@ -62,12 +49,11 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// Test route to check if server is running
+// Test route
 app.get("/api/test", (req, res) => {
   res.json({ message: "Server is running!" });
 });
 
-// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
