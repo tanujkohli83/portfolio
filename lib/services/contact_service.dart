@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ContactService {
-  static const String _formspreeUrl = "https://formspree.io/f/xzddpnnl";
+  static const String _contactUrl = "http://localhost:5000/api/contact";
 
   static Future<bool> submitContactForm({
     required String name,
@@ -11,7 +11,7 @@ class ContactService {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse(_formspreeUrl),
+        Uri.parse(_contactUrl),
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
