@@ -269,36 +269,52 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 28, vertical: 20),
-                        child: Row(
-                          children: [
-                            _btn(
-                              'Execute_Build.sh',
-                              AppColors.primary,
-                              Icons.play_arrow,
-                              () {},
-                            ),
-                            const SizedBox(width: 16),
-                            _btn(
-                              'Resume.pdf',
-                              AppColors.editorBg,
-                              Icons.description_outlined,
-                              () => downloadResume(),
-                            ),
-                            const Spacer(),
-                            // Part / Language label
-                            Text(
-                              '● FLUTTER ● ANDROID',
-                              style: AppTheme.monoStyle.copyWith(
-                                color: AppColors.textDim,
-                                fontSize: 11,
-                                letterSpacing: 1,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Wrap(
+                            spacing: 16,
+                            runSpacing: 16,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.spaceBetween,
+                            children: [
+                              Wrap(
+                                spacing: 16,
+                                runSpacing: 16,
+                                children: [
+                                  _btn(
+                                    'Execute_Build.sh',
+                                    AppColors.primary,
+                                    Icons.play_arrow,
+                                    () {},
+                                  ),
+                                  _btn(
+                                    'Resume.pdf',
+                                    AppColors.editorBg,
+                                    Icons.description_outlined,
+                                    () => downloadResume(),
+                                  ),
+                                ],
                               ),
+                              // Part / Language label
+                              Text(
+                                '● FLUTTER ● ANDROID',
+                                style: AppTheme.monoStyle.copyWith(
+                                  color: AppColors.textDim,
+                                  fontSize: 11,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        );
   }
 
   Widget _dot(Color color) => Container(
@@ -388,7 +404,7 @@ class _HoverButtonState extends State<_HoverButton> {
                 : [],
             border: Border.all(
               color: _hovered && widget.color != AppColors.primary
-                  ? AppColors.border.withOpacity(2)
+                  ? AppColors.border.withOpacity(1.0)
                   : Colors.transparent,
             ),
           ),

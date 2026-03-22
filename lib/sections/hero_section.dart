@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/code_editor_card.dart';
-import '../widgets/code_editor_card.dart';
 import '../core/utils/responsive.dart';
 
 class HeroSection extends StatelessWidget {
