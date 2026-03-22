@@ -181,7 +181,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '// role: Mobile Developer',
+                              '// role: Backend Developer',
                               style: AppTheme.monoStyle.copyWith(
                                 color: AppColors.textDim,
                                 fontSize: 12,
@@ -200,7 +200,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              'Crafting fluid mobile & digital experiences through Flutter and Android development. Architecting scalable solutions with precision and focus.',
+                              'Crafting robust and scalable backend systems and digital experiences. Architecting data-driven solutions with precision and focus.',
                               style: TextStyle(
                                 color: AppColors.textSecondary,
                                 fontSize: 14,
@@ -238,14 +238,8 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                                 ]),
                                 _codeLine('5', [
                                   _span('  val ', AppColors.codeKeyword),
-                                  _span('roles = ', AppColors.textPrimary),
-                                  _span('listOf', AppColors.accent),
-                                  _span('(', AppColors.textPrimary),
-                                  _span('"Flutter Dev"', AppColors.codeString),
-                                  _span(', ', AppColors.textPrimary),
-                                  _span(
-                                      '"Android Dev"', AppColors.codeString),
-                                  _span(')', AppColors.textPrimary),
+                                  _span('role = ', AppColors.textPrimary),
+                                  _span('"Backend Developer"', AppColors.codeString),
                                 ]),
                                 _codeLine('6', [
                                   _span('  val ', AppColors.codeKeyword),
@@ -297,7 +291,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                               ),
                               // Part / Language label
                               Text(
-                                '● FLUTTER ● ANDROID',
+                                '● BACKEND ● API DEPLOYMENT',
                                 style: AppTheme.monoStyle.copyWith(
                                   color: AppColors.textDim,
                                   fontSize: 11,

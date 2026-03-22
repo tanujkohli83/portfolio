@@ -14,36 +14,60 @@ class ProjectsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final projects = [
       {
-        'title': 'Oragtre.',
+        'title': 'Oragtre',
         'desc':
-            'Enterprise stock management solution built with Flutter and ASP.NET, successfully managing thousands of stocks across multiple Retailers and Distributors.',
-        'tech': ['Flutter', 'Dart', 'Riverpod'],
+            'A revolutionary e-commerce platform focused on organic products. Built with Flutter, featuring real-time inventory tracking and a custom recommendation engine. This application optimizes the supply chain for local organic producers.',
+        'tech': ['FLUTTER', 'FIREBASE', 'STRIPE_API', 'RIVERPOD'],
         'icon': Icons.inventory,
         'imagePath': '',
+        'tagText': '01_DEPLOYMENT',
+        'badgeText': 'LIVE',
+        'color1': const Color(0xFFC7F000), // Yellow-green
+        'color2': const Color(0xFF8FA1D0), // Blue-grey
+        'buttonLabel': 'PREVIEW BUILD',
+        'buttonIcon': null,
       },
       {
-        'title': 'BGIR.',
+        'title': 'BGIR',
         'desc':
-            'Built a tool to manage tasks of Employees using Kotlin, Swift, Firebase and ASP.NET as Backend. Over many employees have used it so far, with 500+ Tasks being Created and Done.',
-        'tech': ['Kotlin', 'Swift', 'Firebase'],
+            'An internal resource management system for corporate deployment. Streamlined workflow automation and multi-layered authentication for data security, built to handle massive concurrent operations.',
+        'tech': ['KOTLIN', 'SPRING_BOOT', 'SQL_LITE', 'DOCKER'],
         'icon': Icons.task_alt,
         'imagePath': '',
+        'tagText': '02_DEPLOYMENT',
+        'badgeText': 'BETA',
+        'color1': const Color(0xFF92B6FF), // Light blue
+        'color2': const Color(0xFFC7F000), // Yellow-green
+        'buttonLabel': 'ACCESS SOURCE',
+        'buttonIcon': Icons.visibility,
       },
       {
-        'title': 'Soil Health App.',
+        'title': 'Soil Health App',
         'desc':
             'A Flutter Mobile Application that monitors soil health parameters like Temperature and moisture using Bluetooth Device (BLE). Data stored in Firebase and cached locally with visualization.',
-        'tech': ['Flutter', 'Firebase', 'BLE'],
+        'tech': ['FLUTTER', 'FIREBASE', 'BLE'],
         'icon': Icons.bluetooth_audio_rounded,
         'imagePath': '',
+        'tagText': '03_PROTOTYPE',
+        'badgeText': 'ALPHA',
+        'color1': const Color(0xFFF0B300), // Orange
+        'color2': const Color(0xFFF0B300), 
+        'buttonLabel': 'VIEW DETAILS',
+        'buttonIcon': null,
       },
       {
-        'title': 'Movie API (CRUD).',
+        'title': 'Movie API',
         'desc':
             'Made a Movie API using Go Lang where it can perform CRUD operations on the movies. Clean RESTful architecture with proper error handling.',
-        'tech': ['Go Lang', 'HTTP', 'REST'],
+        'tech': ['GO LANG', 'HTTP', 'REST'],
         'icon': Icons.movie,
         'imagePath': '',
+        'tagText': '04_SERVICE',
+        'badgeText': 'LIVE',
+        'color1': const Color(0xFF00E5FF), // Cyan
+        'color2': const Color(0xFF00E5FF),
+        'buttonLabel': 'API DOCS',
+        'buttonIcon': Icons.api,
       },
     ];
 
@@ -81,7 +105,7 @@ class ProjectsSection extends StatelessWidget {
               crossAxisCount: Responsive.isMobile(context) ? 1 : 2,
               crossAxisSpacing: 28,
               mainAxisSpacing: 28,
-              childAspectRatio: Responsive.isMobile(context) ? 0.85 : 1.05,
+              childAspectRatio: Responsive.isMobile(context) ? 0.9 : 1.35,
             ),
             itemBuilder: (context, index) {
               final p = projects[index];
@@ -91,6 +115,12 @@ class ProjectsSection extends StatelessWidget {
                 imagePath: p['imagePath'] as String,
                 techStack: p['tech'] as List<String>,
                 icon: p['icon'] as IconData,
+                color1: p['color1'] as Color?,
+                color2: p['color2'] as Color?,
+                tagText: p['tagText'] as String?,
+                badgeText: p['badgeText'] as String?,
+                buttonLabel: p['buttonLabel'] as String?,
+                buttonIcon: p['buttonIcon'] as IconData?,
               );
             },
           ),

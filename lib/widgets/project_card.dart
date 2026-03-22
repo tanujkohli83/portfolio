@@ -8,7 +8,12 @@ class ProjectCard extends StatefulWidget {
   final String imagePath; // kept for API compatibility, not used for display
   final List<String> techStack;
   final IconData icon;
-  final String? accentColor;
+  final Color? color1;
+  final Color? color2;
+  final String? tagText;
+  final String? badgeText;
+  final String? buttonLabel;
+  final IconData? buttonIcon;
 
   const ProjectCard({
     super.key,
@@ -17,7 +22,12 @@ class ProjectCard extends StatefulWidget {
     required this.imagePath,
     required this.techStack,
     required this.icon,
-    this.accentColor,
+    this.color1,
+    this.color2,
+    this.tagText,
+    this.badgeText,
+    this.buttonLabel,
+    this.buttonIcon,
   });
 
   @override
@@ -64,18 +74,18 @@ class _ProjectCardState extends State<ProjectCard>
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
           decoration: BoxDecoration(
-            color: _hovered ? const Color(0xFF0D1526) : AppColors.cardBg,
+            color: _hovered ? const Color(0xFF131A2A) : AppColors.cardBg,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: _hovered
-                  ? AppColors.primary.withOpacity(0.6)
+                  ? (widget.color1 ?? const Color(0xFFCCFF00)).withOpacity(0.3)
                   : AppColors.border,
               width: 1,
             ),
             boxShadow: _hovered
                 ? [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.18),
+                      color: (widget.color1 ?? const Color(0xFFCCFF00)).withOpacity(0.05),
                       blurRadius: 32,
                       spreadRadius: 4,
                       offset: const Offset(0, 8),
@@ -84,59 +94,89 @@ class _ProjectCardState extends State<ProjectCard>
                 : [],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(28.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Row: Title + Icon badges
+                // Top Row: Label + LIVE badge
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        widget.title,
-                        style: AppTheme.monoStyle.copyWith(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                        ),
+                    Text(
+                      widget.tagText ?? '01_DEPLOYMENT',
+                      style: AppTheme.monoStyle.copyWith(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: widget.color1 ?? const Color(0xFFCCFF00),
+                        letterSpacing: 1.5,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    _iconBadge(Icons.star_border, AppColors.codeNumber),
-                    const SizedBox(width: 8),
-                    _iconBadge(Icons.call_split, AppColors.textDim),
+                    if (widget.badgeText != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: widget.color1 ?? const Color(0xFFCCFF00),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          widget.badgeText!,
+                          style: AppTheme.monoStyle.copyWith(
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 16),
+                // Title
+                Text(
+                  widget.title,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 // Description
                 Text(
                   widget.description,
                   style: TextStyle(
                     color: AppColors.textSecondary,
-                    height: 1.65,
-                    fontSize: 13.5,
+                    height: 1.6,
+                    fontSize: 14,
                   ),
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
                 // Tech Chips
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 12,
+                  runSpacing: 12,
                   children: widget.techStack.map((tech) => _techChip(tech)).toList(),
                 ),
                 const Spacer(),
-                const SizedBox(height: 20),
-                // Footer
+                const SizedBox(height: 24),
+                // Footer Buttons
                 Row(
                   children: [
-                    _footerLink('Preview', Icons.open_in_new),
-                    const SizedBox(width: 20),
-                    _footerLink('Source', Icons.code),
-                    const Spacer(),
-                    _viewMoreButton(),
+                    Expanded(
+                      child: _HoverSolidButton(
+                        label: widget.buttonLabel ?? 'PREVIEW BUILD',
+                        colorText: widget.color2 ?? const Color(0xFF8FA1D0),
+                        onTap: () {},
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    _HoverSolidIconButton(
+                      icon: widget.buttonIcon,
+                      colorIcon: widget.color1 ?? const Color(0xFFCCFF00),
+                      onTap: () {},
+                    ),
                   ],
                 ),
               ],
@@ -147,72 +187,39 @@ class _ProjectCardState extends State<ProjectCard>
     );
   }
 
-  Widget _iconBadge(IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: AppColors.editorBg,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Icon(icon, size: 14, color: color),
-    );
-  }
-
   Widget _techChip(String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Colors.white.withOpacity(0.15)),
       ),
       child: Text(
-        label,
+        label.toUpperCase(),
         style: AppTheme.monoStyle.copyWith(
-          fontSize: 12,
-          color: AppColors.primary,
+          fontSize: 11,
+          color: widget.color2 ?? const Color(0xFF8FA1D0),
+          letterSpacing: 0.5,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
-
-  Widget _footerLink(String label, IconData icon) {
-    return InkWell(
-      onTap: () {},
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: AppColors.textDim),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: AppTheme.monoStyle.copyWith(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textDim,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _viewMoreButton() {
-    return _HoverOutlineButton(label: 'AFTER HOURS');
-  }
 }
 
-class _HoverOutlineButton extends StatefulWidget {
+class _HoverSolidButton extends StatefulWidget {
   final String label;
+  final Color colorText;
+  final VoidCallback onTap;
 
-  const _HoverOutlineButton({required this.label});
+  const _HoverSolidButton({required this.label, required this.colorText, required this.onTap});
 
   @override
-  State<_HoverOutlineButton> createState() => _HoverOutlineButtonState();
+  State<_HoverSolidButton> createState() => _HoverSolidButtonState();
 }
 
-class _HoverOutlineButtonState extends State<_HoverOutlineButton> {
+class _HoverSolidButtonState extends State<_HoverSolidButton> {
   bool _hovered = false;
 
   @override
@@ -222,26 +229,79 @@ class _HoverOutlineButtonState extends State<_HoverOutlineButton> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTap: () {},
+        onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: _hovered ? AppColors.primary.withOpacity(0.12) : Colors.transparent,
+            color: _hovered ? const Color(0xFF2C3954) : const Color(0xFF222B40),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: _hovered ? AppColors.primary : AppColors.border,
+              color: _hovered ? widget.colorText : Colors.transparent,
             ),
           ),
           child: Text(
             widget.label,
             style: AppTheme.monoStyle.copyWith(
-              color: _hovered ? AppColors.primary : AppColors.textDim,
-              fontSize: 11,
-              letterSpacing: 0.8,
+              color: widget.colorText,
+              fontSize: 12,
+              letterSpacing: 1.2,
               fontWeight: FontWeight.bold,
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HoverSolidIconButton extends StatefulWidget {
+  final IconData? icon;
+  final Color colorIcon;
+  final VoidCallback onTap;
+
+  const _HoverSolidIconButton({required this.icon, required this.colorIcon, required this.onTap});
+
+  @override
+  State<_HoverSolidIconButton> createState() => _HoverSolidIconButtonState();
+}
+
+class _HoverSolidIconButtonState extends State<_HoverSolidIconButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          decoration: BoxDecoration(
+            color: _hovered ? const Color(0xFF2C3954) : const Color(0xFF222B40),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: _hovered ? widget.colorIcon : Colors.transparent,
+            ),
+          ),
+          child: widget.icon != null 
+              ? Icon(
+                  widget.icon,
+                  color: widget.colorIcon,
+                  size: 20,
+                )
+              : Text(
+                  '< >',
+                  style: AppTheme.monoStyle.copyWith(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ),
       ),
     );
