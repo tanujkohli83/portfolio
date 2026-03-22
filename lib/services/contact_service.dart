@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:portfolio/core/config/api_config.dart';
 
 class ContactService {
-  static const String _contactUrl = "http://localhost:5000/api/contact";
-
   static Future<bool> submitContactForm({
     required String name,
     required String email,
@@ -11,7 +10,7 @@ class ContactService {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse(_contactUrl),
+        Uri.parse(ApiConfig.contactUrl),
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
