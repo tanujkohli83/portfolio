@@ -32,32 +32,32 @@ class CustomNavbar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const SizedBox(width: 24),
-          // Logo
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'ARCHITECT',
-                  style: AppTheme.monoStyle.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-                TextSpan(
-                  text: '_OS',
-                  style: AppTheme.monoStyle.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // const SizedBox(width: 24),
+          // // Logo
+          // RichText(
+          //   text: TextSpan(
+          //     children: [
+          //       TextSpan(
+          //         text: 'ARCHITECT',
+          //         style: AppTheme.monoStyle.copyWith(
+          //           color: AppColors.textPrimary,
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 14,
+          //           letterSpacing: 1.5,
+          //         ),
+          //       ),
+          //       TextSpan(
+          //         text: '_OS',
+          //         style: AppTheme.monoStyle.copyWith(
+          //           color: AppColors.primary,
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 14,
+          //           letterSpacing: 1.5,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           const SizedBox(width: 32),
           // Nav Tabs
           Expanded(
@@ -76,26 +76,26 @@ class CustomNavbar extends StatelessWidget {
             ),
           ),
           // Right Actions
-          _NavButton(
-            label: 'PREFERENCES',
-            color: Colors.transparent,
-            onTap: () {},
-          ),
-          const SizedBox(width: 8),
-          _NavButton(
-            label: 'PARTNERS',
-            color: Colors.transparent,
-            onTap: () {},
-          ),
-          const SizedBox(width: 8),
-          _NavButton(
-            label: 'CONTACT Y',
-            color: Colors.transparent,
-            onTap: () {},
-          ),
-          const SizedBox(width: 16),
-          _DeployButton(),
-          const SizedBox(width: 24),
+          // _NavButton(
+          //   label: 'PREFERENCES',
+          //   color: Colors.transparent,
+          //   onTap: () {},
+          // ),
+          // const SizedBox(width: 8),
+          // _NavButton(
+          //   label: 'PARTNERS',
+          //   color: Colors.transparent,
+          //   onTap: () {},
+          // ),
+          // const SizedBox(width: 8),
+          // _NavButton(
+          //   label: 'CONTACT Y',
+          //   color: Colors.transparent,
+          //   onTap: () {},
+          // ),
+          // const SizedBox(width: 16),
+          // _DeployButton(),
+          // const SizedBox(width: 24),
         ],
       ),
     );

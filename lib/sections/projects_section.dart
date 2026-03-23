@@ -14,60 +14,60 @@ class ProjectsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final projects = [
       {
-        'title': 'Oragtre',
+        'title': 'Employee Directory API',
         'desc':
-            'A revolutionary e-commerce platform focused on organic products. Built with Flutter, featuring real-time inventory tracking and a custom recommendation engine. This application optimizes the supply chain for local organic producers.',
-        'tech': ['FLUTTER', 'FIREBASE', 'STRIPE_API', 'RIVERPOD'],
-        'icon': Icons.inventory,
+            'Built a REST API with Spring Boot for employee records. Implemented CRUD endpoints, input validation, and PostgreSQL integration.',
+        'tech': ['SPRING_BOOT', 'JAVA', 'POSTGRESQL', 'REST_API'],
+        'icon': Icons.badge,
         'imagePath': '',
-        'tagText': '01_DEPLOYMENT',
-        'badgeText': 'LIVE',
+        'tagText': '01_BACKEND',
+        'badgeText': 'PROJECT',
         'color1': const Color(0xFFC7F000), // Yellow-green
         'color2': const Color(0xFF8FA1D0), // Blue-grey
-        'buttonLabel': 'PREVIEW BUILD',
-        'buttonIcon': null,
+        'buttonLabel': 'VIEW DETAILS',
+        'buttonIcon': Icons.api,
       },
       {
-        'title': 'BGIR',
+        'title': 'Task Tracker Service',
         'desc':
-            'An internal resource management system for corporate deployment. Streamlined workflow automation and multi-layered authentication for data security, built to handle massive concurrent operations.',
-        'tech': ['KOTLIN', 'SPRING_BOOT', 'SQL_LITE', 'DOCKER'],
+            'Created a backend service in ASP.NET Core to manage tasks, status updates, and basic authentication for a team workflow app.',
+        'tech': ['ASP.NET_CORE', 'C#', 'SQL', 'JWT'],
         'icon': Icons.task_alt,
         'imagePath': '',
-        'tagText': '02_DEPLOYMENT',
-        'badgeText': 'BETA',
+        'tagText': '02_BACKEND',
+        'badgeText': 'PROJECT',
         'color1': const Color(0xFF92B6FF), // Light blue
         'color2': const Color(0xFFC7F000), // Yellow-green
-        'buttonLabel': 'ACCESS SOURCE',
+        'buttonLabel': 'VIEW DETAILS',
         'buttonIcon': Icons.visibility,
       },
       {
-        'title': 'Soil Health App',
+        'title': 'Inventory Service',
         'desc':
-            'A Flutter Mobile Application that monitors soil health parameters like Temperature and moisture using Bluetooth Device (BLE). Data stored in Firebase and cached locally with visualization.',
-        'tech': ['FLUTTER', 'FIREBASE', 'BLE'],
-        'icon': Icons.bluetooth_audio_rounded,
+            'Developed a Spring Boot microservice for inventory updates with MongoDB storage and basic role-based endpoint protection.',
+        'tech': ['SPRING_BOOT', 'MONGODB', 'JAVA', 'DOCKER'],
+        'icon': Icons.inventory_2,
         'imagePath': '',
-        'tagText': '03_PROTOTYPE',
-        'badgeText': 'ALPHA',
+        'tagText': '03_SERVICE',
+        'badgeText': 'PROJECT',
         'color1': const Color(0xFFF0B300), // Orange
-        'color2': const Color(0xFFF0B300), 
+        'color2': const Color(0xFFF0B300),
         'buttonLabel': 'VIEW DETAILS',
-        'buttonIcon': null,
+        'buttonIcon': Icons.storage,
       },
       {
-        'title': 'Movie API',
+        'title': 'Admin Dashboard Integration',
         'desc':
-            'Made a Movie API using Go Lang where it can perform CRUD operations on the movies. Clean RESTful architecture with proper error handling.',
-        'tech': ['GO LANG', 'HTTP', 'REST'],
-        'icon': Icons.movie,
+            'Connected an AngularJS frontend with ASP.NET APIs for user and report management, including pagination and filtering support.',
+        'tech': ['ANGULARJS', 'ASP.NET_CORE', 'POSTGRESQL', 'SQL'],
+        'icon': Icons.dashboard_customize,
         'imagePath': '',
-        'tagText': '04_SERVICE',
-        'badgeText': 'LIVE',
+        'tagText': '04_INTEGRATION',
+        'badgeText': 'PROJECT',
         'color1': const Color(0xFF00E5FF), // Cyan
         'color2': const Color(0xFF00E5FF),
-        'buttonLabel': 'API DOCS',
-        'buttonIcon': Icons.api,
+        'buttonLabel': 'VIEW DETAILS',
+        'buttonIcon': Icons.web,
       },
     ];
 

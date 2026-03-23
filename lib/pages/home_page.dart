@@ -77,13 +77,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                       KeyedSubtree(
                         key: _sectionKeys[2],
-                        child:
-                            WorkHistorySection(scrollOffset: _scrollOffset),
+                        child: WorkHistorySection(scrollOffset: _scrollOffset),
                       ),
                       KeyedSubtree(
                         key: _sectionKeys[3],
-                        child:
-                            ProjectsSection(scrollOffset: _scrollOffset),
+                        child: ProjectsSection(scrollOffset: _scrollOffset),
                       ),
                       KeyedSubtree(
                         key: _sectionKeys[4],
@@ -120,7 +118,7 @@ class _HomePageState extends State<HomePage> {
           ),
           const Spacer(),
           Text(
-            'Built with Flutter ❤',
+            'Portfolio frontend in Flutter • Backend focused profile',
             style: TextStyle(
               color: AppColors.textDim,
               fontSize: 12,

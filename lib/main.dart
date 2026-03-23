@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tanuj Kohli| Backend Developer',
+      title: 'Tanuj Kohli | Junior Backend Developer',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       home: const HomePage(),

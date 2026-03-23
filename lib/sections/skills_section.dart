@@ -12,15 +12,16 @@ class SkillsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final skills = [
-      {'name': 'Flutter', 'icon': Icons.flutter_dash},
-      {'name': 'Dart', 'icon': Icons.code},
-      {'name': 'Kotlin', 'icon': Icons.android},
       {'name': 'Java', 'icon': Icons.coffee},
-      {'name': 'Firebase', 'icon': Icons.local_fire_department},
       {'name': 'Spring Boot', 'icon': Icons.computer_rounded},
+      {'name': 'C#', 'icon': Icons.code},
+      {'name': 'ASP.NET Core', 'icon': Icons.web},
+      {'name': 'AngularJS', 'icon': Icons.web_asset},
       {'name': 'REST APIs', 'icon': Icons.api},
+      {'name': 'MongoDB', 'icon': Icons.storage},
+      {'name': 'SQL', 'icon': Icons.table_chart},
+      {'name': 'PostgreSQL', 'icon': Icons.dns},
       {'name': 'Git / GitHub', 'icon': Icons.terminal},
-      {'name': 'Riverpod', 'icon': Icons.cookie_outlined},
     ];
 
     return Container(
@@ -52,7 +53,7 @@ class SkillsSection extends StatelessWidget {
               Flexible(
                 flex: 2,
                 child: Text(
-                  'A collection of cloud-native services built to do all the heavy lifting of your operations, so you can focus on building better products.',
+                  'Backend-focused stack for building secure and maintainable APIs, integrating databases, and supporting web applications as a fresher developer.',
                   style: TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 13,
@@ -68,10 +69,12 @@ class SkillsSection extends StatelessWidget {
             spacing: 16,
             runSpacing: 16,
             children: skills
-                .map((s) => SkillChip(
-                      label: s['name'] as String,
-                      icon: s['icon'] as IconData,
-                    ))
+                .map(
+                  (s) => SkillChip(
+                    label: s['name'] as String,
+                    icon: s['icon'] as IconData,
+                  ),
+                )
                 .toList(),
           ),
         ],
