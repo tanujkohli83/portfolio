@@ -39,9 +39,20 @@ class WorkHistorySection extends StatelessWidget {
           ),
           const SizedBox(height: 48),
           const TimelineItem(
-            role: 'Backend Developer Intern',
+            role: 'Junior Software Developer',
+            company: 'Jogaz Info Private Limited',
+            period: 'Mar 2026 — PRESENT',
+            tags: ['ASP.NET', 'Angular JS'],
+            points: [
+              'Contributing to day-to-day development tasks across assigned modules.',
+              'Supporting implementation, testing, and bug-fix workflows with the team.',
+              'Working in an on-site role from Green Park, New Delhi.',
+            ],
+          ),
+          const TimelineItem(
+            role: 'Software Developer Intern',
             company: 'Bright InfoTech Pvt. Ltd.',
-            period: 'Jan 2026 — PRESENT',
+            period: 'Jan 2026 — March 2026',
             tags: ['SPRING_BOOT', 'SQL'],
             points: [
               'Implemented and tested REST endpoints for internal admin modules.',
@@ -50,7 +61,7 @@ class WorkHistorySection extends StatelessWidget {
             ],
           ),
           const TimelineItem(
-            role: 'Software Developer Intern',
+            role: 'Mobile App Developer',
             company: 'Paramount Infosystem Pvt. Ltd.',
             period: 'July 2025 – Oct 2025',
             tags: ['ASP.NET', 'POSTGRESQL'],
@@ -58,17 +69,6 @@ class WorkHistorySection extends StatelessWidget {
               'Built basic CRUD modules in ASP.NET Core for business workflows.',
               'Integrated PostgreSQL queries and added server-side validations.',
               'Fixed backend bugs and improved API documentation for team usage.',
-            ],
-          ),
-          const TimelineItem(
-            role: 'Trainee Developer',
-            company: 'Utopian Gateway',
-            period: 'Mar 2025 - Apr 2025',
-            tags: ['ANGULARJS', 'MONGODB'],
-            points: [
-              'Assisted in connecting AngularJS pages with backend APIs.',
-              'Handled small MongoDB data operations and API testing tasks.',
-              'Learned deployment basics and team coding standards.',
             ],
             isLast: true,
           ),
