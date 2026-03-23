@@ -52,9 +52,7 @@ class _TerminalContactFormState extends State<TerminalContactForm> {
         _nameController.clear();
         _emailController.clear();
         _messageController.clear();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Message sent successfully!')),
-        );
+        _showSuccessDialog();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -63,6 +61,15 @@ class _TerminalContactFormState extends State<TerminalContactForm> {
         );
       }
     }
+  }
+
+  void _showSuccessDialog() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.55),
+      builder: (context) => const _SuccessSentDialog(),
+    );
   }
 
   @override
@@ -150,17 +157,10 @@ class _TerminalContactFormState extends State<TerminalContactForm> {
             alignment: Alignment.bottomRight,
             child: ElevatedButton.icon(
               onPressed: _isSending ? null : _handleSend,
-              icon: _isSending
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Icon(Icons.send, size: 18),
-              label: Text(_isSending ? 'Sending...' : 'Execute Send'),
+              icon: const Icon(Icons.send, size: 18),
+              label: Text(
+                _isSending ? 'Message is on the way...' : 'Execute Send',
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -207,6 +207,131 @@ class _TerminalContactFormState extends State<TerminalContactForm> {
           style: AppTheme.monoStyle.copyWith(color: AppColors.textDim),
         ),
       ],
+    );
+  }
+}
+
+class _SuccessSentDialog extends StatefulWidget {
+  const _SuccessSentDialog();
+
+  @override
+  State<_SuccessSentDialog> createState() => _SuccessSentDialogState();
+}
+
+class _SuccessSentDialogState extends State<_SuccessSentDialog>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _gradientController;
+
+  @override
+  void initState() {
+    super.initState();
+    _gradientController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    )..repeat();
+
+    Future<void>.delayed(const Duration(milliseconds: 2500), () {
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _gradientController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final dialogWidth = screenWidth < 520 ? screenWidth * 0.84 : 380.0;
+    final dialogHeight = screenWidth < 520 ? 108.0 : 114.0;
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      child: Center(
+        child: SizedBox(
+          width: dialogWidth,
+          height: dialogHeight,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: AnimatedBuilder(
+                  animation: _gradientController,
+                  builder: (context, child) {
+                    final t = _gradientController.value;
+                    final shift = -1.0 + (t * 2.0);
+
+                    return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        gradient: LinearGradient(
+                          begin: Alignment(-1.0 + shift, -1.0),
+                          end: Alignment(1.0 + shift, 1.0),
+                          colors: const [
+                            AppColors.primary,
+                            AppColors.secondary,
+                            AppColors.accent,
+                            AppColors.primary,
+                          ],
+                          stops: const [0.0, 0.35, 0.7, 1.0],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.all(2.4),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBg,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.check_circle_rounded,
+                          size: 28,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Message sent successfully!',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.monoStyle.copyWith(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

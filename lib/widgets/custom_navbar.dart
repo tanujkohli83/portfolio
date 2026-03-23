@@ -15,10 +15,10 @@ class CustomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      'main.kt',
+      'main.java',
       'skills.json',
       'experience.log',
-      'projects.dart',
+      'projects.cs',
       'contact.sh',
     ];
 
