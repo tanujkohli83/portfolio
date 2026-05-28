@@ -117,14 +117,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const Spacer(),
-          Text(
-            'Portfolio frontend in Flutter • Backend focused profile',
-            style: TextStyle(
-              color: AppColors.textDim,
-              fontSize: 12,
-              fontFamily: 'monospace',
-            ),
-          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/open_link.dart';
 
 class ProjectCard extends StatefulWidget {
   final String title;
@@ -14,6 +15,7 @@ class ProjectCard extends StatefulWidget {
   final String? badgeText;
   final String? buttonLabel;
   final IconData? buttonIcon;
+  final String? buttonUrl;
 
   const ProjectCard({
     super.key,
@@ -28,6 +30,7 @@ class ProjectCard extends StatefulWidget {
     this.badgeText,
     this.buttonLabel,
     this.buttonIcon,
+    this.buttonUrl,
   });
 
   @override
@@ -47,9 +50,10 @@ class _ProjectCardState extends State<ProjectCard>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _scaleAnim = Tween<double>(begin: 1.0, end: 1.025).animate(
-      CurvedAnimation(parent: _scaleController, curve: Curves.easeOut),
-    );
+    _scaleAnim = Tween<double>(
+      begin: 1.0,
+      end: 1.025,
+    ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
   }
 
   @override
@@ -74,110 +78,92 @@ class _ProjectCardState extends State<ProjectCard>
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
           decoration: BoxDecoration(
-            color: _hovered ? const Color(0xFF131A2A) : AppColors.cardBg,
-            borderRadius: BorderRadius.circular(16),
+            color: _hovered ? const Color(0xFF1A1F2B) : const Color(0xFF1C2029),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: _hovered
-                  ? (widget.color1 ?? const Color(0xFFCCFF00)).withOpacity(0.3)
-                  : AppColors.border,
-              width: 1,
+                  ? (widget.color1 ?? AppColors.primary).withOpacity(0.45)
+                  : const Color(0xFF353A44),
+              width: 1.2,
             ),
             boxShadow: _hovered
                 ? [
                     BoxShadow(
-                      color: (widget.color1 ?? const Color(0xFFCCFF00)).withOpacity(0.05),
-                      blurRadius: 32,
-                      spreadRadius: 4,
-                      offset: const Offset(0, 8),
+                      color: Colors.black.withOpacity(0.22),
+                      blurRadius: 24,
+                      spreadRadius: 1,
+                      offset: const Offset(0, 6),
                     ),
                   ]
                 : [],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(28.0),
+            padding: const EdgeInsets.fromLTRB(24, 22, 24, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Row: Label + LIVE badge
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.tagText ?? '01_DEPLOYMENT',
-                      style: AppTheme.monoStyle.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: widget.color1 ?? const Color(0xFFCCFF00),
-                        letterSpacing: 1.5,
+                    Expanded(
+                      child: Text(
+                        widget.tagText ?? '01_PROJECT',
+                        style: AppTheme.monoStyle.copyWith(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: widget.color1 ?? AppColors.primary,
+                          letterSpacing: 1.3,
+                        ),
                       ),
                     ),
-                    if (widget.badgeText != null)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: widget.color1 ?? const Color(0xFFCCFF00),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          widget.badgeText!,
-                          style: AppTheme.monoStyle.copyWith(
-                            color: Colors.black,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    if (widget.buttonUrl != null)
+                      _ActionTile(
+                        icon: widget.buttonIcon ?? Icons.open_in_new,
+                        color: widget.color1 ?? AppColors.primary,
+                        onTap: () => _openLink(widget.buttonUrl!),
+                      )
+                    else if (widget.buttonIcon != null)
+                      _ActionTile(
+                        icon: widget.buttonIcon!,
+                        color: AppColors.textDim,
+                        onTap: null,
                       ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 // Title
                 Text(
                   widget.title,
                   style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white,
-                    letterSpacing: -0.5,
+                    height: 1.05,
+                    letterSpacing: -0.8,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 18),
                 // Description
                 Text(
                   widget.description,
                   style: TextStyle(
-                    color: AppColors.textSecondary,
-                    height: 1.6,
-                    fontSize: 14,
+                    color: const Color(0xFFD7D9DD),
+                    height: 1.75,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
                   ),
-                  maxLines: 4,
+                  maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 24),
+                const Spacer(),
                 // Tech Chips
                 Wrap(
                   spacing: 12,
                   runSpacing: 12,
-                  children: widget.techStack.map((tech) => _techChip(tech)).toList(),
-                ),
-                const Spacer(),
-                const SizedBox(height: 24),
-                // Footer Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: _HoverSolidButton(
-                        label: widget.buttonLabel ?? 'PREVIEW BUILD',
-                        colorText: widget.color2 ?? const Color(0xFF8FA1D0),
-                        onTap: () {},
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    _HoverSolidIconButton(
-                      icon: widget.buttonIcon,
-                      colorIcon: widget.color1 ?? const Color(0xFFCCFF00),
-                      onTap: () {},
-                    ),
-                  ],
+                  children: widget.techStack
+                      .map((tech) => _techChip(tech))
+                      .toList(),
                 ),
               ],
             ),
@@ -187,121 +173,86 @@ class _ProjectCardState extends State<ProjectCard>
     );
   }
 
+  Future<void> _openLink(String url) async {
+    await openExternalLink(url);
+  }
+
   Widget _techChip(String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.white.withOpacity(0.15)),
+        color: const Color(0xFF20252F),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: (widget.color1 ?? AppColors.primary).withOpacity(0.22),
+          width: 1,
+        ),
       ),
       child: Text(
         label.toUpperCase(),
         style: AppTheme.monoStyle.copyWith(
-          fontSize: 11,
-          color: widget.color2 ?? const Color(0xFF8FA1D0),
-          letterSpacing: 0.5,
-          fontWeight: FontWeight.w600,
+          fontSize: 12,
+          color: widget.color1 ?? AppColors.primary,
+          letterSpacing: 1,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
   }
 }
 
-class _HoverSolidButton extends StatefulWidget {
-  final String label;
-  final Color colorText;
-  final VoidCallback onTap;
-
-  const _HoverSolidButton({required this.label, required this.colorText, required this.onTap});
-
-  @override
-  State<_HoverSolidButton> createState() => _HoverSolidButtonState();
-}
-
-class _HoverSolidButtonState extends State<_HoverSolidButton> {
-  bool _hovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: _hovered ? const Color(0xFF2C3954) : const Color(0xFF222B40),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: _hovered ? widget.colorText : Colors.transparent,
-            ),
-          ),
-          child: Text(
-            widget.label,
-            style: AppTheme.monoStyle.copyWith(
-              color: widget.colorText,
-              fontSize: 12,
-              letterSpacing: 1.2,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _HoverSolidIconButton extends StatefulWidget {
+class _ActionTile extends StatefulWidget {
   final IconData? icon;
-  final Color colorIcon;
-  final VoidCallback onTap;
+  final Color color;
+  final VoidCallback? onTap;
 
-  const _HoverSolidIconButton({required this.icon, required this.colorIcon, required this.onTap});
+  const _ActionTile({
+    required this.icon,
+    required this.onTap,
+    required this.color,
+  });
 
   @override
-  State<_HoverSolidIconButton> createState() => _HoverSolidIconButtonState();
+  State<_ActionTile> createState() => _ActionTileState();
 }
 
-class _HoverSolidIconButtonState extends State<_HoverSolidIconButton> {
+class _ActionTileState extends State<_ActionTile> {
   bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
+      cursor: widget.onTap != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      onEnter: widget.onTap != null
+          ? (_) => setState(() => _hovered = true)
+          : null,
+      onExit: widget.onTap != null
+          ? (_) => setState(() => _hovered = false)
+          : null,
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
-            color: _hovered ? const Color(0xFF2C3954) : const Color(0xFF222B40),
-            borderRadius: BorderRadius.circular(8),
+            color: _hovered ? const Color(0xFF343943) : const Color(0xFF3A3F49),
+            borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: _hovered ? widget.colorIcon : Colors.transparent,
+              color: widget.onTap != null
+                  ? widget.color.withOpacity(0.12)
+                  : Colors.transparent,
             ),
           ),
-          child: widget.icon != null 
-              ? Icon(
-                  widget.icon,
-                  color: widget.colorIcon,
-                  size: 20,
-                )
-              : Text(
-                  '< >',
-                  style: AppTheme.monoStyle.copyWith(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+          child: Center(
+            child: Icon(
+              widget.icon ?? Icons.open_in_new,
+              color: widget.onTap != null ? widget.color : AppColors.textDim,
+              size: 24,
+            ),
+          ),
         ),
       ),
     );

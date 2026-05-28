@@ -49,19 +49,19 @@ class SkillsSection extends StatelessWidget {
                   const SectionTitle(title: 'System_Dependencies'),
                 ],
               ),
-              const Spacer(),
-              Flexible(
-                flex: 2,
-                child: Text(
-                  'Backend-focused stack for building secure and maintainable APIs, integrating databases, and supporting web applications as a fresher developer.',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 13,
-                    height: 1.6,
-                  ),
-                  textAlign: TextAlign.right,
-                ),
-              ),
+              // const Spacer(),
+              // Flexible(
+              //   flex: 2,
+              //   child: Text(
+              //     'Backend-focused stack for building secure and maintainable APIs, integrating databases, and supporting web applications as a fresher developer.',
+              //     style: TextStyle(
+              //       color: AppColors.textSecondary,
+              //       fontSize: 13,
+              //       height: 1.6,
+              //     ),
+              //     textAlign: TextAlign.right,
+              //   ),
+              // ),
             ],
           ),
           const SizedBox(height: 48),

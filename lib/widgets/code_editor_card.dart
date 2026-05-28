@@ -62,10 +62,9 @@ class _CodeEditorCardState extends State<CodeEditorCard>
     final normalizedX = centerX == 0 ? 0.0 : (dx - centerX) / centerX;
     final normalizedY = centerY == 0 ? 0.0 : (dy - centerY) / centerY;
 
-    _targetX = normalizedY * -8 * (math.pi / 180); // rotateX
-    _targetY = normalizedX * 8 * (math.pi / 180); // rotateY
+    _targetX = normalizedY * -8 * (math.pi / 180);
+    _targetY = normalizedX * 8 * (math.pi / 180);
 
-    // Animate smoothly using tween
     _rotateXAnim = Tween<double>(begin: _rotateX, end: _targetX).animate(
       CurvedAnimation(parent: _smoothController, curve: Curves.easeOut),
     );
@@ -100,6 +99,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
     _smoothController.forward(from: 0);
   }
 
+  @override
   Widget build(BuildContext context) {
     return FadeInUp(
       child: Listener(
@@ -136,7 +136,6 @@ class _CodeEditorCardState extends State<CodeEditorCard>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Window Header
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -157,7 +156,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                         _dot(const Color(0xFF28CA41)),
                         const SizedBox(width: 16),
                         Text(
-                          'backend_profile.java',
+                          'mobile_profile.kt',
                           style: AppTheme.monoStyle.copyWith(
                             fontSize: 11,
                             color: AppColors.textDim,
@@ -165,7 +164,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                         ),
                         const Spacer(),
                         Text(
-                          'EDITOR — BACKEND',
+                          'EDITOR — MOBILE',
                           style: AppTheme.monoStyle.copyWith(
                             fontSize: 10,
                             color: AppColors.textDim,
@@ -175,14 +174,13 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                       ],
                     ),
                   ),
-                  // Name + Tagline Hero (above code)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(28, 28, 28, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '// BACKEND_PROFILE v1.0',
+                          '// MOBILE_PROFILE v1.0',
                           style: AppTheme.monoStyle.copyWith(
                             color: AppColors.textDim,
                             fontSize: 12,
@@ -190,7 +188,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '// role: Junior Backend Developer',
+                          '// role: Mobile Developer',
                           style: AppTheme.monoStyle.copyWith(
                             color: AppColors.textDim,
                             fontSize: 12,
@@ -209,7 +207,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Junior backend developer focused on building clean REST APIs, writing maintainable server-side code, and working with SQL and NoSQL databases.',
+                          'Mobile Developer with hands-on experience building cross-platform mobile applications using Flutter, Firebase, REST APIs, and Kotlin Multiplatform. Experienced in real-time communication, BLE integration, offline storage, and scalable mobile UI development.',
                           style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 14,
@@ -220,7 +218,6 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                       ],
                     ),
                   ),
-                  // Code Block
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
@@ -231,7 +228,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                             _codeLine('1', [
                               _span('import ', AppColors.codeKeyword),
                               _span(
-                                'com.portfolio.BackendDev',
+                                'com.portfolio.MobileDev',
                                 AppColors.textPrimary,
                               ),
                             ]),
@@ -249,16 +246,13 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                             _codeLine('5', [
                               _span('  val ', AppColors.codeKeyword),
                               _span('role = ', AppColors.textPrimary),
-                              _span(
-                                '"Backend Developer"',
-                                AppColors.codeString,
-                              ),
+                              _span('"Mobile Developer"', AppColors.codeString),
                             ]),
                             _codeLine('6', [
                               _span('  val ', AppColors.codeKeyword),
                               _span('mission = ', AppColors.textPrimary),
                               _span(
-                                '"Building reliable backend services with clean architecture."',
+                                '"Building scalable mobile apps with Flutter and Kotlin Multiplatform."',
                                 AppColors.codeString,
                               ),
                             ]),
@@ -269,9 +263,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                     ),
                   ),
                   const SizedBox(height: 4),
-                  // Divider
                   Container(height: 1, color: AppColors.border),
-                  // Footer Buttons
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 28,
@@ -290,7 +282,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                             runSpacing: 16,
                             children: [
                               _btn(
-                                'Execute_Build.sh',
+                                'Run_Profile.sh',
                                 AppColors.primary,
                                 Icons.play_arrow,
                                 () {},
@@ -303,15 +295,14 @@ class _CodeEditorCardState extends State<CodeEditorCard>
                               ),
                             ],
                           ),
-                          // Part / Language label
-                          Text(
-                            '● BACKEND ● SPRINGBOOT ● ASP.NET ● SQL',
-                            style: AppTheme.monoStyle.copyWith(
-                              color: AppColors.textDim,
-                              fontSize: 11,
-                              letterSpacing: 1,
-                            ),
-                          ),
+                          // Text(
+                          //   '● DART ● KOTLIN ● FLUTTER ● JETPACK COMPOSE ● MVVM ● RIVERPOD ● PROVIDER ● FIREBASE ● ASP.NET ● SPRINGBOOT ● MONGODB ● MYSQL',
+                          //   style: AppTheme.monoStyle.copyWith(
+                          //     color: AppColors.textDim,
+                          //     fontSize: 11,
+                          //     letterSpacing: 1,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -340,7 +331,7 @@ class _CodeEditorCardState extends State<CodeEditorCard>
     return TextSpan(
       children: [
         TextSpan(
-          text: '${num.padRight(4)}',
+          text: num.padRight(4),
           style: AppTheme.monoStyle.copyWith(
             color: AppColors.textDim,
             fontSize: 13,

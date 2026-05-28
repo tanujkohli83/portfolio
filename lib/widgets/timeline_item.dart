@@ -6,6 +6,7 @@ class TimelineItem extends StatefulWidget {
   final String role;
   final String company;
   final String period;
+  final String? location;
   final List<String> points;
   final List<String> tags;
   final bool isLast;
@@ -16,6 +17,7 @@ class TimelineItem extends StatefulWidget {
     required this.company,
     required this.period,
     required this.points,
+    this.location,
     this.tags = const [],
     this.isLast = false,
   });
@@ -64,12 +66,7 @@ class _TimelineItemState extends State<TimelineItem> {
                 ),
               ),
               if (!widget.isLast)
-                Expanded(
-                  child: Container(
-                    width: 2,
-                    color: AppColors.border,
-                  ),
-                ),
+                Expanded(child: Container(width: 2, color: AppColors.border)),
             ],
           ),
           const SizedBox(width: 24),
@@ -83,9 +80,7 @@ class _TimelineItemState extends State<TimelineItem> {
                 margin: const EdgeInsets.only(bottom: 32),
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: _hovered
-                      ? const Color(0xFF111827)
-                      : AppColors.cardBg,
+                  color: _hovered ? const Color(0xFF111827) : AppColors.cardBg,
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(
                     color: _hovered
@@ -126,11 +121,22 @@ class _TimelineItemState extends State<TimelineItem> {
                               Text(
                                 widget.company,
                                 style: TextStyle(
-                                  color: AppColors.codeKeyword,
+                                  color: AppColors.textSecondary,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13,
                                 ),
                               ),
+                              if (widget.location != null) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  widget.location!,
+                                  style: TextStyle(
+                                    color: AppColors.textSecondary,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),

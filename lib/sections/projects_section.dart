@@ -14,60 +14,64 @@ class ProjectsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final projects = [
       {
-        'title': 'Employee Directory API',
+        'title': 'Air Chat',
         'desc':
-            'Built a REST API with Spring Boot for employee records. Implemented CRUD endpoints, input validation, and PostgreSQL integration.',
-        'tech': ['SPRING_BOOT', 'JAVA', 'POSTGRESQL', 'REST_API'],
-        'icon': Icons.badge,
+            'Chat Application built with Flutter and FireBase successfully managing chats of users in realtime.',
+        'tech': ['FLUTTER', 'FIREBASE', 'CHAT_APP'],
+        'icon': Icons.chat_bubble_outline,
         'imagePath': '',
-        'tagText': '01_BACKEND',
+        'tagText': '01_CHAT_APP',
         'badgeText': 'PROJECT',
-        'color1': const Color(0xFFC7F000), // Yellow-green
-        'color2': const Color(0xFF8FA1D0), // Blue-grey
-        'buttonLabel': 'VIEW DETAILS',
-        'buttonIcon': Icons.api,
+        'color1': const Color(0xFF92B6FF),
+        'color2': const Color(0xFFC7F000),
+        'buttonLabel': 'Link',
+        'buttonIcon': Icons.open_in_new,
+        'buttonUrl': 'https://github.com/tanujkohli83/Air-Chat',
       },
       {
-        'title': 'Task Tracker Service',
+        'title': 'BGIR',
         'desc':
-            'Created a backend service in ASP.NET Core to manage tasks, status updates, and basic authentication for a team workflow app.',
-        'tech': ['ASP.NET_CORE', 'C#', 'SQL', 'JWT'],
-        'icon': Icons.task_alt,
+            'Built a tool to manage the task of the Employees by using Kotlin, Swift, Firebase and ASP.NET as Backend. Over many employees have used it so far, with 500+ Task being Created and Done',
+        'tech': ['KOTLIN', 'SWIFT', 'FIREBASE', 'ASP.NET'],
+        'icon': Icons.work_outline,
         'imagePath': '',
-        'tagText': '02_BACKEND',
+        'tagText': '02_TOOLING',
         'badgeText': 'PROJECT',
-        'color1': const Color(0xFF92B6FF), // Light blue
-        'color2': const Color(0xFFC7F000), // Yellow-green
-        'buttonLabel': 'VIEW DETAILS',
-        'buttonIcon': Icons.visibility,
+        'color1': const Color(0xFFC7F000),
+        'color2': const Color(0xFF8FA1D0),
+        'buttonLabel': '',
+        'buttonIcon': Icons.lock_outline,
       },
       {
-        'title': 'Inventory Service',
+        'title': 'Soil Health App',
         'desc':
-            'Developed a Spring Boot microservice for inventory updates with MongoDB storage and basic role-based endpoint protection.',
-        'tech': ['SPRING_BOOT', 'MONGODB', 'JAVA', 'DOCKER'],
-        'icon': Icons.inventory_2,
+            'A Flutter Mobile Application that monitors soil health parameters like Temperature and moisture using Bluetooth Device (BLE). The data should be stored in Firebase Firestore and cached locally in shared preference and visualized with charts to observe trends.',
+        'tech': ['FLUTTER', 'BLE', 'FIRESTORE', 'CHARTS'],
+        'icon': Icons.sensors,
         'imagePath': '',
-        'tagText': '03_SERVICE',
+        'tagText': '03_IOT',
         'badgeText': 'PROJECT',
-        'color1': const Color(0xFFF0B300), // Orange
+        'color1': const Color(0xFF00E5FF),
         'color2': const Color(0xFFF0B300),
-        'buttonLabel': 'VIEW DETAILS',
-        'buttonIcon': Icons.storage,
+        'buttonLabel': 'Link',
+        'buttonIcon': Icons.open_in_new,
+        'buttonUrl': 'https://github.com/tanujkohli83/Soil-Monitor-App',
       },
       {
-        'title': 'Admin Dashboard Integration',
+        'title': 'Smart Clinic Appointment System (CRUD)',
         'desc':
-            'Connected an AngularJS frontend with ASP.NET APIs for user and report management, including pagination and filtering support.',
-        'tech': ['ANGULARJS', 'ASP.NET_CORE', 'POSTGRESQL', 'SQL'],
-        'icon': Icons.dashboard_customize,
+            'A robust ASP.NET Core REST API for managing clinic appointments. This system enables patients to book appointments with doctors, manage appointment statuses, and handle scheduling conflicts.',
+        'tech': ['ASP.NET_CORE', 'REST_API', 'CRUD', 'SQL'],
+        'icon': Icons.medical_services_outlined,
         'imagePath': '',
-        'tagText': '04_INTEGRATION',
+        'tagText': '04_CLINIC',
         'badgeText': 'PROJECT',
-        'color1': const Color(0xFF00E5FF), // Cyan
+        'color1': const Color(0xFF92B6FF),
         'color2': const Color(0xFF00E5FF),
-        'buttonLabel': 'VIEW DETAILS',
-        'buttonIcon': Icons.web,
+        'buttonLabel': 'Link',
+        'buttonIcon': Icons.open_in_new,
+        'buttonUrl':
+            'https://github.com/tanujkohli83/Smart-Clinic-Appointment-System-API',
       },
     ];
 
@@ -105,7 +109,7 @@ class ProjectsSection extends StatelessWidget {
               crossAxisCount: Responsive.isMobile(context) ? 1 : 2,
               crossAxisSpacing: 28,
               mainAxisSpacing: 28,
-              childAspectRatio: Responsive.isMobile(context) ? 0.9 : 1.35,
+              childAspectRatio: Responsive.isMobile(context) ? 1.05 : 1.55,
             ),
             itemBuilder: (context, index) {
               final p = projects[index];
@@ -121,6 +125,7 @@ class ProjectsSection extends StatelessWidget {
                 badgeText: p['badgeText'] as String?,
                 buttonLabel: p['buttonLabel'] as String?,
                 buttonIcon: p['buttonIcon'] as IconData?,
+                buttonUrl: p['buttonUrl'] as String?,
               );
             },
           ),
