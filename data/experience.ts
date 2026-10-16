@@ -1,0 +1,8 @@
+export type Experience = { company: string; role: string; place: string; date: string; technologies: string[]; items: string[] };
+
+export const experience: Experience[] = [
+  { company: "Jogaz Info Pvt Ltd.", role: "Android Developer", place: "New Delhi", date: "November 2025 – Present", technologies: ["Kotlin", "WebSockets", "RESTful API", "Java", "JWT Authentication"], items: ["Developed a Kotlin stock market application with real-time market data streaming using WebSockets, RESTful API integration with Java backend services, and optimised handling of live trading updates.", "Implemented JWT authentication, session management, and scalable mobile architecture focused on real-time financial workflows and performance."] },
+  { company: "Bright Infotech Pvt Ltd.", role: "App Development Intern", place: "Remote", date: "May 2025 – November 2025", technologies: ["Kotlin", "FastAPI", "Authentication", "Offline AI"], items: ["Integrated Kotlin frontend with FastAPI backend services for LMS workflows, API communication, and authentication handling.", "Developed mobile application features including offline AI inference, digital business card sharing, and automated follow-up messaging."] },
+  { company: "Paramount Infosystem Pvt Ltd.", role: "Mobile App Developer Intern", place: "New Delhi, IN", date: "November 2024 – May 2025", technologies: ["Kotlin Multiplatform", "Compose Multiplatform", "Java", "REST APIs"], items: ["Developed cross-platform mobile applications using Kotlin Multiplatform and Compose Multiplatform integrated with Java backend services.", "Integrated 10+ REST APIs for authentication, data handling, and backend-driven application workflows."] },
+];
+

@@ -1,0 +1,9 @@
+export type Project = { label: string; title: string; description: string; category: string; technologies: string[]; githubUrl: string; liveUrl: string; color: string };
+
+export const projects: Project[] = [
+  { label: "01_FITBRIDGE", title: "FitBridge", description: "Dual Flutter app for real-time trainer-member communication using Firebase, Riverpod, Hive, and Jitsi Meet. Implemented chat, appointment scheduling, video calls, session logging, and feedback workflows with shared modular architecture.", category: "Mobile · Realtime", technologies: ["Flutter", "Firebase", "Riverpod", "Hive", "Jitsi Meet"], githubUrl: "https://github.com/tanujkohli83/FitBridge", liveUrl: "", color: "mono" },
+  { label: "02_CHAT_APP", title: "Air Chat", description: "Built a real-time chat application using Flutter and Firebase with user authentication and Firestore-based messaging.", category: "Mobile · Communication", technologies: ["Flutter", "Firebase", "Authentication", "Firestore"], githubUrl: "https://github.com/tanujkohli83/Air-Chat", liveUrl: "", color: "mono" },
+  { label: "03_IOT", title: "Soil Health App", description: "Built a Flutter BLE application to monitor soil temperature and moisture data with Firebase Firestore, offline caching, and chart visualisation.", category: "Mobile · BLE", technologies: ["Flutter", "BLE", "Firebase Firestore", "Offline caching", "Charts"], githubUrl: "https://github.com/tanujkohli83/Soil-Monitor-App", liveUrl: "", color: "mono" },
+  { label: "04_CLINIC", title: "Smart Clinic Appointment System", description: "Developed an ASP.NET Core REST API for doctor appointment booking, scheduling management, and appointment status handling.", category: "Backend · REST API", technologies: ["ASP.NET Core", "REST API"], githubUrl: "https://github.com/tanujkohli83/Smart-Clinic-Appointment-System-API", liveUrl: "", color: "mono" },
+];
+
