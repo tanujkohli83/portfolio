@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import "./stitch-theme.css";
-import "./mono-theme.css";
-import "./scene-motion.css";
-import "./resume-content.css";
-import "./automotive-theme.css";
-import "./signal-theme.css";
 import "./dezerv-theme.css";
 
 const techSans = Space_Grotesk({
@@ -32,6 +26,11 @@ export const metadata: Metadata = {
     title: "Tanuj Kohli — Mobile Developer",
     description: "Portfolio of Tanuj Kohli, a Mobile Developer building Android applications with Kotlin, Firebase, REST APIs, and Kotlin Multiplatform.",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import { profile } from "@/data/profile";
 
 const items = [
-  ["01", "Projects", "#projects"],
-  ["02", "Experience", "#experience"],
-  ["03", "About", "#education"],
-  ["04", "Contact", "#contact"],
+  ["01", "About", "#about"],
+  ["02", "Projects", "#projects"],
+  ["03", "Contact", "#contact"],
 ] as const;
 
 export function Navbar() {
-  const [active, setActive] = useState("projects");
+  const [active, setActive] = useState("home");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
