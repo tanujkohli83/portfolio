@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { profile } from "@/data/profile";
 
 const items = [
+  ["00", "Home", "#home"],
   ["01", "About", "#about"],
   ["02", "Projects", "#projects"],
   ["03", "Contact", "#contact"],
@@ -30,10 +31,6 @@ export function Navbar() {
   }, []);
 
   return <header className="auto-nav">
-    <a className="auto-brand" href="#home" onClick={() => setOpen(false)}>
-      <span className="auto-brand-mark">TK</span>
-      <span className="auto-brand-copy"><b>Tanuj Kohli</b><small>Android / Mobile Engineering</small></span>
-    </a>
     <nav className={open ? "auto-nav-open" : undefined} aria-label="Primary navigation">
       {items.map(([number, label, href]) => <a key={href} href={href} className={active === href.slice(1) ? "active" : undefined} aria-current={active === href.slice(1) ? "page" : undefined} onClick={() => setOpen(false)}><i>{number}</i>{label}</a>)}
     </nav>
