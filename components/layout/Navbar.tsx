@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { profile } from "@/data/profile";
 
 const items = [
-  ["01", "Profile", "#home"],
-  ["02", "Systems", "#skills"],
-  ["03", "Experience", "#experience"],
-  ["04", "Projects", "#projects"],
-  ["05", "Contact", "#contact"],
+  ["01", "Projects", "#projects"],
+  ["02", "Experience", "#experience"],
+  ["03", "About", "#education"],
+  ["04", "Contact", "#contact"],
 ] as const;
 
 export function Navbar() {
-  const [active, setActive] = useState("home");
+  const [active, setActive] = useState("projects");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export function Navbar() {
     <nav className={open ? "auto-nav-open" : undefined} aria-label="Primary navigation">
       {items.map(([number, label, href]) => <a key={href} href={href} className={active === href.slice(1) ? "active" : undefined} aria-current={active === href.slice(1) ? "page" : undefined} onClick={() => setOpen(false)}><i>{number}</i>{label}</a>)}
     </nav>
-    <span className="auto-nav-meta"><span className="auto-status-dot"/> Available for select work</span>
+    <a className="auto-nav-resume" href={profile.resumeUrl} download="Tanuj-Kohli-Resume.pdf">Resume <span>↗</span></a>
     <button className="auto-nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen(value => !value)}>{open ? "CLOSE" : "MENU"}</button>
   </header>;
 }

@@ -8,5 +8,5 @@ import { Contact } from "@/components/contact/Contact";
 import { Education } from "@/components/education/Education";
 
 export default function Home() {
-  return <main><Navbar /><Hero /><Skills /><Experience /><Education /><ProjectsShowcase /><Contact /><Footer /></main>;
+  return <main><Navbar /><Hero /><ProjectsShowcase /><Experience /><Skills /><Education /><Contact /><Footer /></main>;
 }

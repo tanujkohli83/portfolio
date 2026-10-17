@@ -7,7 +7,7 @@ import "./scene-motion.css";
 import "./resume-content.css";
 import "./automotive-theme.css";
 import "./signal-theme.css";
-import "./neo-theme.css";
+import "./dezerv-theme.css";
 
 const techSans = Space_Grotesk({
   variable: "--font-geist-sans",
